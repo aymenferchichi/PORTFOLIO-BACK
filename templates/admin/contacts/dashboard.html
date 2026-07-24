@@ -1,0 +1,139 @@
+{% extends "admin/base_site.html" %} {% block content %}
+<div style="display: grid; gap: 24px">
+  <div>
+    <h1 style="margin-bottom: 8px">Contact Dashboard</h1>
+    <p style="margin: 0">
+      A quick view of message volume, recent inquiries, and response status.
+    </p>
+  </div>
+
+  <div style="display: grid; gap: 12px">
+    <div>
+      <strong style="display: block; margin-bottom: 8px"
+        >Filter by status</strong
+      >
+      <div style="display: flex; gap: 10px; flex-wrap: wrap">
+        {% for filter in status_filters %}
+        <a
+          href="{{ filter.url }}"
+          style="padding:8px 12px;border-radius:999px;text-decoration:none;border:1px solid {% if filter.active %}#417690{% else %}#ccc{% endif %};background:{% if filter.active %}#417690{% else %}#fff{% endif %};color:{% if filter.active %}#fff{% else %}#222{% endif %};"
+        >
+          {{ filter.label }}
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div>
+      <strong style="display: block; margin-bottom: 8px"
+        >Filter by time window</strong
+      >
+      <div style="display: flex; gap: 10px; flex-wrap: wrap">
+        {% for filter in window_filters %}
+        <a
+          href="{{ filter.url }}"
+          style="padding:8px 12px;border-radius:999px;text-decoration:none;border:1px solid {% if filter.active %}#205c3b{% else %}#ccc{% endif %};background:{% if filter.active %}#205c3b{% else %}#fff{% endif %};color:{% if filter.active %}#fff{% else %}#222{% endif %};"
+        >
+          {{ filter.label }}
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <div
+    style="
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    "
+  >
+    <div style="padding: 18px; border: 1px solid #ddd; border-radius: 12px">
+      <strong style="display: block; font-size: 1.8rem"
+        >{{ total_messages }}</strong
+      >
+      <span>Total messages</span>
+    </div>
+    <div style="padding: 18px; border: 1px solid #ddd; border-radius: 12px">
+      <strong style="display: block; font-size: 1.8rem"
+        >{{ new_messages }}</strong
+      >
+      <span>New messages</span>
+    </div>
+    <div style="padding: 18px; border: 1px solid #ddd; border-radius: 12px">
+      <strong style="display: block; font-size: 1.8rem"
+        >{{ replied_messages }}</strong
+      >
+      <span>Replied messages</span>
+    </div>
+  </div>
+
+  <div style="padding: 18px; border: 1px solid #ddd; border-radius: 12px">
+    <h2>Status breakdown</h2>
+    <div style="display: grid; gap: 14px">
+      {% for item in status_breakdown %}
+      <div>
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 6px;
+          "
+        >
+          <strong>{{ item.label }}</strong>
+          <span
+            >{{ item.total }} message{{ item.total|pluralize }} • {{
+            item.percentage }}%</span
+          >
+        </div>
+        <div
+          style="
+            height: 12px;
+            border-radius: 999px;
+            background: #e8ecef;
+            overflow: hidden;
+          "
+        >
+          <div
+            style="height:100%;width:{{ item.percentage }}%;background:linear-gradient(90deg,#417690,#5da271);"
+          ></div>
+        </div>
+      </div>
+      {% empty %}
+      <p style="margin: 0">No messages match the current filters.</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div style="padding: 18px; border: 1px solid #ddd; border-radius: 12px">
+    <h2>Recent messages</h2>
+    <table style="width: 100%; border-collapse: collapse">
+      <thead>
+        <tr>
+          <th style="text-align: left; padding: 8px 0">Name</th>
+          <th style="text-align: left; padding: 8px 0">Email</th>
+          <th style="text-align: left; padding: 8px 0">Subject</th>
+          <th style="text-align: left; padding: 8px 0">Status</th>
+          <th style="text-align: left; padding: 8px 0">Created</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for message in recent_messages %}
+        <tr>
+          <td style="padding: 8px 0">{{ message.name }}</td>
+          <td style="padding: 8px 0">{{ message.email }}</td>
+          <td style="padding: 8px 0">{{ message.subject }}</td>
+          <td style="padding: 8px 0">{{ message.get_status_display }}</td>
+          <td style="padding: 8px 0">{{ message.created_at }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="5" style="padding: 8px 0">No contact messages found.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

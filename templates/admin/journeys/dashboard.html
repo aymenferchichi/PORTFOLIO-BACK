@@ -1,0 +1,107 @@
+{% extends "admin/base_site.html" %} {% block content %}
+<div style="display: grid; gap: 24px">
+  <div>
+    <h1 style="margin-bottom: 8px">Journey Dashboard</h1>
+    <p style="margin: 0">
+      Manage the timeline cards, their order, and the content shown across the
+      road scene and detail pages.
+    </p>
+  </div>
+
+  <div
+    style="
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    "
+  >
+    <div style="padding: 18px; border: 1px solid #ddd; border-radius: 12px">
+      <strong style="display: block; font-size: 1.8rem"
+        >{{ total_journeys }}</strong
+      >
+      <span>Total journeys</span>
+    </div>
+    <div style="padding: 18px; border: 1px solid #ddd; border-radius: 12px">
+      <strong style="display: block; font-size: 1.2rem">
+        {% if first_milestone %}{{ first_milestone.title }}{% else %}None{%
+        endif %}
+      </strong>
+      <span>First milestone</span>
+    </div>
+    <div style="padding: 18px; border: 1px solid #ddd; border-radius: 12px">
+      <strong style="display: block; font-size: 1.2rem">
+        {% if latest_milestone %}{{ latest_milestone.title }}{% else %}None{%
+        endif %}
+      </strong>
+      <span>Latest milestone</span>
+    </div>
+  </div>
+
+  <div style="padding: 18px; border: 1px solid #ddd; border-radius: 12px">
+    <h2>Accent palette</h2>
+    <div style="display: flex; gap: 12px; flex-wrap: wrap">
+      {% for item in accent_groups %}
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          border: 1px solid #e2e2e2;
+          border-radius: 999px;
+          padding: 8px 14px;
+        "
+      >
+        <span
+          style="display:inline-block;width:16px;height:16px;border-radius:999px;background:{{ item.accent }};border:1px solid rgba(0,0,0,0.1);"
+        ></span>
+        <strong>{{ item.accent }}</strong>
+        <span>{{ item.count }} item{{ item.count|pluralize }}</span>
+      </div>
+      {% empty %}
+      <p style="margin: 0">No journeys are available yet.</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div style="padding: 18px; border: 1px solid #ddd; border-radius: 12px">
+    <h2>Journey records</h2>
+    <table style="width: 100%; border-collapse: collapse">
+      <thead>
+        <tr>
+          <th style="text-align: left; padding: 8px 0">Order</th>
+          <th style="text-align: left; padding: 8px 0">Year</th>
+          <th style="text-align: left; padding: 8px 0">Title</th>
+          <th style="text-align: left; padding: 8px 0">Slug</th>
+          <th style="text-align: left; padding: 8px 0">Accent</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for journey in journeys %}
+        <tr>
+          <td style="padding: 8px 0">{{ journey.display_order }}</td>
+          <td style="padding: 8px 0">{{ journey.year }}</td>
+          <td style="padding: 8px 0">
+            <a href="{% url 'admin:journeys_journey_change' journey.id %}"
+              >{{ journey.title }}</a
+            >
+          </td>
+          <td style="padding: 8px 0">{{ journey.slug }}</td>
+          <td style="padding: 8px 0">
+            <span style="display: inline-flex; align-items: center; gap: 8px">
+              <span
+                style="display:inline-block;width:14px;height:14px;border-radius:999px;background:{{ journey.accent }};border:1px solid rgba(0,0,0,0.1);"
+              ></span>
+              {{ journey.accent }}
+            </span>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="5" style="padding: 8px 0">No journey records found.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
