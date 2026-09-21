@@ -17,7 +17,10 @@ class JourneyApiTests(APITestCase):
         response = self.client.get('/api/journeys/ui-ux-expansion/')
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['title'], 'UI / UX expansion')
+        self.assertEqual(
+            response.data['title'],
+            'UI / UX expansion',
+        )
         self.assertEqual(response.data['display_order'], 3)
 
     def test_journey_dashboard_requires_admin_authentication(self):

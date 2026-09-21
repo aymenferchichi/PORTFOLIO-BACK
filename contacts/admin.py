@@ -11,10 +11,19 @@ from .models import ContactMessage
 @admin.register(ContactMessage)
 class ContactMessageAdmin(admin.ModelAdmin):
 	change_list_template = 'admin/contacts/contactmessage/change_list.html'
-	list_display = ('name', 'email', 'subject', 'status', 'created_at')
+	list_display = ('name', 'email', 'subject', 'estimator_project_type', 'status', 'created_at')
 	list_filter = ('status', 'created_at')
 	search_fields = ('name', 'email', 'subject', 'message')
-	readonly_fields = ('created_at', 'updated_at')
+	readonly_fields = (
+		'created_at',
+		'updated_at',
+		'estimator_project_type',
+		'estimator_page_scope',
+		'estimator_timeline',
+		'estimator_support_level',
+		'estimator_budget_min',
+		'estimator_budget_max',
+	)
 
 	def get_urls(self):
 		urls = super().get_urls()

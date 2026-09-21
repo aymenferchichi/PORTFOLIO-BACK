@@ -23,15 +23,15 @@
     </div>
     <div style="padding: 18px; border: 1px solid #ddd; border-radius: 12px">
       <strong style="display: block; font-size: 1.2rem">
-        {% if first_milestone %}{{ first_milestone.title }}{% else %}None{%
+        {% if first_milestone %} {{ first_milestone.title }} {% else %} None {%
         endif %}
       </strong>
       <span>First milestone</span>
     </div>
     <div style="padding: 18px; border: 1px solid #ddd; border-radius: 12px">
       <strong style="display: block; font-size: 1.2rem">
-        {% if latest_milestone %}{{ latest_milestone.title }}{% else %}None{%
-        endif %}
+        {% if latest_milestone %} {{ latest_milestone.title }} {% else %} None
+        {% endif %}
       </strong>
       <span>Latest milestone</span>
     </div>

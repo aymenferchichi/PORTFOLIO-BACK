@@ -12,6 +12,12 @@ class ContactMessage(models.Model):
 	subject = models.CharField(max_length=180)
 	phone = models.CharField(max_length=40, blank=True)
 	message = models.TextField()
+	estimator_project_type = models.CharField(max_length=80, blank=True, default='')
+	estimator_page_scope = models.CharField(max_length=40, blank=True, default='')
+	estimator_timeline = models.CharField(max_length=40, blank=True, default='')
+	estimator_support_level = models.CharField(max_length=80, blank=True, default='')
+	estimator_budget_min = models.PositiveIntegerField(blank=True, null=True)
+	estimator_budget_max = models.PositiveIntegerField(blank=True, null=True)
 	status = models.CharField(
 		max_length=20,
 		choices=Status.choices,

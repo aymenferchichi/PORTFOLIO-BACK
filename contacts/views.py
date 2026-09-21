@@ -26,6 +26,17 @@ class ContactMessageViewSet(viewsets.ModelViewSet):
 		return [permission() for permission in permission_classes]
 
 	def _send_contact_email(self, contact_message):
+		estimator_lines = ''
+		if contact_message.estimator_project_type:
+			estimator_lines = (
+				"\n\nProject scope guide:\n"
+				f"Project type: {contact_message.estimator_project_type}\n"
+				f"Page scope: {contact_message.estimator_page_scope or 'Not provided'}\n"
+				f"Timeline: {contact_message.estimator_timeline or 'Not provided'}\n"
+				f"Support level: {contact_message.estimator_support_level or 'Not provided'}\n"
+				f"Estimated budget: {contact_message.estimator_budget_min or 'N/A'} - {contact_message.estimator_budget_max or 'N/A'}"
+			)
+
 		send_mail(
 			subject=f"Portfolio contact: {contact_message.subject}",
 			message=(
@@ -33,6 +44,7 @@ class ContactMessageViewSet(viewsets.ModelViewSet):
 				f"Email: {contact_message.email}\n"
 				f"Phone: {contact_message.phone or 'Not provided'}\n\n"
 				f"Message:\n{contact_message.message}"
+				f"{estimator_lines}"
 			),
 			from_email=settings.DEFAULT_FROM_EMAIL,
 			recipient_list=[settings.CONTACT_RECEIVER_EMAIL],

@@ -8,12 +8,29 @@ from .models import Journey
 @admin.register(Journey)
 class JourneyAdmin(admin.ModelAdmin):
     change_list_template = 'admin/journeys/journey/change_list.html'
-    list_display = ('display_order', 'title', 'year', 'slug', 'accent_preview')
+    list_display = ('display_order', 'title', 'subcategory', 'year', 'slug', 'accent_preview')
     list_display_links = ('title',)
     list_editable = ('display_order',)
     ordering = ('display_order',)
+    list_filter = ('subcategory',)
     search_fields = ('title', 'slug', 'year', 'eyebrow', 'detail', 'summary')
     prepopulated_fields = {'slug': ('title',)}
+    fields = (
+        'display_order',
+        'title',
+        'slug',
+        'year',
+        'eyebrow',
+        'subcategory',
+        'client_label',
+        'project_scope',
+        'outcome_highlight',
+        'detail',
+        'summary',
+        'focus',
+        'deliverables',
+        'accent',
+    )
 
     def get_urls(self):
         urls = super().get_urls()
